@@ -1,0 +1,13 @@
+{
+  "name": "name",
+  "description": "description",
+  "rarity": "rarity",
+  "type": "type",
+  "sell": "price",
+  "trade": ["min", "max"],
+  "buy": "price",
+  "emoji": "emoji",
+  "color": "color",
+  "value": "value",
+  "thumb": "link"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "cookie",
+  "description": "Simple but kind of a rare item. You can't buy or sell this item, however you can trade it! To get cookies you can either follow achievements or by luck in minigames / commands randomly. Prices for cookies on trades usually depend on the trader's offer, but there is a range you can follow!",
+  "rarity": "Rare",
+  "type": "Tradable",
+  "sell": 0,
+  "trade": [5000, 25000],
+  "buy": 0,
+  "emoji": "<:cookie:936621204519936000>",
+  "color": "GREEN",
+  "value": 10000,
+  "thumb": "https://cdn.discordapp.com/attachments/928306098354667581/933463529992908921/cookie_1.png"
+}

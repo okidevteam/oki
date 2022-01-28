@@ -1,0 +1,13 @@
+{
+  "name": "cube",
+  "description": "When this cube is used, you have a chance to actually solve it. If you solve this cube, you will get a coin boost of `+200%`. You can get this cube by luck or by reaching levels `5`, `10`, `25`, `50` or `75`.",
+  "rarity": "Common",
+  "type": "Usable",
+  "sell": 5000,
+  "trade": [4000, 15000],
+  "buy": 20000,
+  "emoji": "<:cube:936621155282997328>",
+  "color": "BLUE",
+  "value": 12500,
+  "thumb": "https://cdn.discordapp.com/attachments/928306098354667581/934828276902420561/rubik.png"
+}

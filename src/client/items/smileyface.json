@@ -1,0 +1,13 @@
+{
+  "name": "smileyface",
+  "description": "A smiley face to represent your happiness. When using a smiley face, you have `60%` more chance of winning on `oki fish`, `oki gtn`, `oki play`, `oki work` and `oki trivia`. You ONLY get this item on achievements.",
+  "rarity": "Epic",
+  "type": "Usable",
+  "sell": 50000,
+  "trade": [30000, 70000],
+  "buy": 120000,
+  "emoji": ":)",
+  "color": "YELLOW",
+  "value": 125000,
+  "thumb": "https://cdn.discordapp.com/attachments/935529068009508881/936624666636853258/pixlr-bg-result_41.png"
+}
