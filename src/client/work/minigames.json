@@ -1,0 +1,18 @@
+{
+  "developer": {
+    "gtw": ["C#", "C++", "C", "js", "python", "Website", "HTML", "CSS", "Dank Memer", "Node.js", "React.js", "three.js", "Go", "Rust", "discord.js", "discord.py", "pygame", "Unity", "Vsc", "engine", "Java"],
+    "gto": ["C#", "C++", "C", "js", "python", "Website", "HTML", "CSS", "Dank Memer", "Node.js", "React.js", "three.js", "Go", "Rust", "discord.js", "discord.py", "pygame", "Unity", "Vsc", "engine", "Java"]
+  },
+  "youtuber": {
+    "gtw": ["Like", "Comment", "Subscribe", "Pewdiepie", "Dislike", "Markiplier", "Share", "ASMR", "Mr Beast", "Minecraft", "Description", "Title", "Apology Video", "Vlog", "Raid Shadow Legends", "Ads", "Monetization", "Demonetization"],
+    "gto": ["Like", "Comment", "Subscribe", "Pewdiepie", "Dislike", "Markiplier", "Share", "ASMR", "Mr Beast", "Minecraft", "Description", "Title", "Apology Video", "Vlog", "Raid Shadow Legends", "Ads", "Monetization", "Demonetization"]
+  },
+  "redditor": {
+    "gtw": ["Upvote", "Downvote", "Comment", "Meme", "r/im14andthisisdeep", "r/memes", "r/cursedcomments", "Emojis", "Gold", "Karma", "Awards", "r/askreddit"],
+    "gto": ["Upvote", "Downvote", "Comment", "Meme", "r/im14andthisisdeep", "r/memes", "r/cursedcomments", "Emojis", "Gold", "Karma", "Awards", "r/askreddit"]
+  },
+  "investor": {
+    "gtw": ["Bitcoin", "Dogecoin", "Actions", "Ethereum", "Litecoin", "Miner", "Trades", "business"],
+    "gto": ["Bitcoin", "Dogecoin", "Actions", "Ethereum", "Litecoin", "Miner", "Scam"]
+  }
+}

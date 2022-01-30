@@ -23,11 +23,7 @@ const s = '❖'
 
 /* app */
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + '/src/app/index.html')
-})
-
-app.get("/file", (req, res) => {
-  res.sendFile(__dirname + '/src/app/dist/' + req.query.f)
+  res.send('https://okidevteam.github.io/oki')
 })
 
 app.get("*", (req, res) => {
@@ -39,8 +35,12 @@ app.listen(3000)
 /* client */
 for(let command of commands) {
   command = require(`./src/client/commands/${command}`)
-	commandArray.push(command.data.toJSON());
-  client.commands.set(command.name, command)
+  if(!command.data) {
+    client.commands.set(command.name, command);
+  } else {
+    client.commands.set(command.name, command)
+	  commandArray.push(command.data.toJSON());
+  }
 }
 
 (async () => {
@@ -82,6 +82,7 @@ client.on('interactionCreate', async interaction => {
             await command.execute(interaction, Discord, db, s, commafy)
             break;
           }
+
         case 'beg':
           if(interaction.replied || interaction.deferred) {
             return;
@@ -89,13 +90,52 @@ client.on('interactionCreate', async interaction => {
             await command.execute(interaction, Discord, db, s, ms)
             break;
           }
+
         case 'buy':
-        case 'shop':
+          if(interaction.replied || interaction.deferred) {
+            return;
+          } else {
+            await command.execute(interaction, Discord, db, s, client, commafy)
+            break;
+          }
+
+        case 'daily':
+          if(interaction.replied || interaction.deferred) {
+            return;
+          } else {
+            await command.execute(interaction, Discord, db, s, commafy)
+            break;
+          }
+
+        case 'help':
+          if(interaction.replied || interaction.deferred) {
+            return;
+          } else {
+            await command.execute(interaction, Discord)
+            break;
+          }
+
         case 'inv':
           if(interaction.replied || interaction.deferred) {
             return;
           } else {
             await command.execute(interaction, Discord, db, s, client, commafy)
+            break;
+          }
+
+        case 'shop':
+          if(interaction.replied || interaction.deferred) {
+            return;
+          } else {
+            await command.execute(interaction, Discord, db, s, client, commafy)
+            break;
+          }
+
+        case 'work':
+          if(interaction.replied || interaction.deferred) {
+            return;
+          } else {
+            await command.execute(interaction, Discord, db, s, commafy, ms)
             break;
           }
       }
@@ -123,12 +163,21 @@ client.on("messageCreate", async message => {
     case 'buy':
       await client.commands.get('buy').exe(message, args, Discord, db, s, client)
       break;
-    case 'shop':
-      await client.commands.get('shop').exe(message, args, Discord, db, s, client, commafy)
+    case 'daily':
+      await client.commands.get('daily').exe(message, Discord, db, s, commafy)
+      break;
+    case 'help':
+      await client.commands.get('help').exe(message, Discord)
       break;
     case 'inv':
     case 'inventory':
       await client.commands.get('inv').exe(message, Discord, db, client, commafy)
+      break;
+    case 'shop':
+      await client.commands.get('shop').exe(message, args, Discord, db, s, client, commafy)
+      break;
+    case 'work':
+      await client.commands.get('work').exe(message, args, Discord, db, s, commafy, ms)
       break;
     default:
       return;

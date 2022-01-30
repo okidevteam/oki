@@ -1,0 +1,3 @@
+{
+  "works": [{ "name": "developer", "show": "Developer", "salary": 15000 }, { "name": "youtuber" ,"show": "Youtuber", "salary": 16500 }, { "name": "redditor", "show": "Redditor", "salary": 18970 }, { "name": "investor", "show": "Investor",  "salary": 20000 }]
+}
