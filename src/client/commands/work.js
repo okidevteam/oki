@@ -176,53 +176,48 @@ function minigame(user, message, db, Discord, s, commafy) {
 }
 
 async function newjob(user, db, Discord, s, commafy, message, job) {
-  if(!job) {
-    const filter = m => m.author.id === user.id
-    const collector = message.channel.createMessageCollector({ filter, time: 15000 });
-    await message.reply('Please type the name of the job you wish!')
-    collector.on('collect', async m => {
-      job = `${m.content}`.split(' ').join('').toLowerCase()
-      for(let i = 0; i < worklist.length; i++) {
-        let work = worklist[i]
-        if(work.name === job) {
-          let embed = new Discord.MessageEmbed()
-          .setTitle("New job!")
-          .setColor("GREEN")
-          .setDescription(`You just got your first job ever! Wow... here is \`1,500\` ${s} to get you started. \n\n**__Work Info__** \n\nWork Name - **${work.name}** \n\nWork Salary - **${work.salary}** \n_Everytime you work, you have a 3% chance of getting a promotion, which raises your salary by a random amount of money_ \nYou were hired for the first time on <t:${Date.now()}:D>`)
-          await m.reply({ embeds: [embed] })
-          db.set(`${user.id}.work`, {
-            name: work.name,
-            salary: work.salary,
-            startedWorking: Date.now(),
-            firstjob: true,
-            hasswitched: false
-          })
-          db.add(`${user.id}.money`, 1500)
-        } else {
-          continue;
-        }
-      }
-    });
-  } else {
-    for(let i = 0; i < worklist.length; i++) {
-      let work = worklist[i]
-      if(work.name === job) {
-        let embed = new Discord.MessageEmbed()
-        .setTitle("New job!")
-        .setColor("GREEN")
-        .setDescription(`You just got your first job ever! Wow... here is \`1,500\` ${s} to get you started. \n\n**__Work Info__** \n\nWork Name - **${work.name}** \n\nWork Salary - **${work.salary}** \n_Everytime you work, you have a 3% chance of getting a promotion, which raises your salary by a random amount of money_ \nYou were hired for the first time on <t:${Date.now()}:D>`)
-        await message.reply({ embeds: [embed] })
-        db.set(`${user.id}.work`, {
-          name: work.name,
-          salary: work.salary,
-          startedWorking: Date.now(),
-          firstjob: true,
-          hasswitched: false
-        })
-        db.add(`${user.id}.money`, 1500)
-      } else {
-        continue;
-      }
+  for(let i = 0; i < worklist.length; i++) {
+    let work = worklist[i]
+    if(work.name === job) {
+      let embed = new Discord.MessageEmbed()
+      .setTitle("New job!")
+      .setColor("GREEN")
+      .setDescription(`You just got your first job ever! Wow... here is \`1,500\` ${s} to get you started. \n\n**__Work Info__** \n\nWork Name - **${work.name}** \n\nWork Salary - **${work.salary}** \n_Everytime you work, you have a 3% chance of getting a promotion, which raises your salary by a random amount of money_ \nYou were hired for the first time on <t:${Date.now()}:D>`)
+      await message.reply({ embeds: [embed] })
+      db.set(`${user.id}.work`, {
+        name: work.name,
+        salary: work.salary,
+        startedWorking: Date.now(),
+        firstjob: true,
+        hasswitched: false
+      })
+      db.add(`${user.id}.money`, 1500)
+    } else {
+      continue;
+    }
+  }
+}
+
+async function switchjob(user, db, Discord, s, commafy, message, job) {
+  for(let i = 0; i < worklist.length; i++) {
+    let work = worklist[i]
+    if(work.name === job) {
+      let lastjob = db.get(`${user.id}.work.name`)
+      let embed = new Discord.MessageEmbed()
+      .setTitle("Switched jobs!")
+      .setColor("GREEN")
+      .setDescription(`You switched from your last job (worked as \`${lastjob}\`) to work as a \`${job}\` with a salary of \`${work.salary}\``)
+      await message.reply({ embeds: [embed] })
+      db.set(`${user.id}.work`, {
+        name: work.name,
+        salary: work.salary,
+        startedWorking: Date.now(),
+        firstjob: false,
+        hasswitched: true
+      })
+      db.set(`${user.id}.cooldowns.switchjob`, Date.now())
+    } else {
+      continue;
     }
   }
 }
@@ -235,7 +230,7 @@ module.exports = {
     if(!category) {
       let work = db.get(`${user.id}.work`)
       if(!work) {
-        await message.reply('You do not have a job yet! please check \`/work list\` or \`oki work list\` and do \`/work new\` or \`oki work new <work>\`')
+        await message.reply('You do not have a job yet! please check \`oki work list\` and do \`oki work new <work>\`')
       } else {
         let isVip = db.get(`${user.id}.vip`)
         let workCooldown = 3600000;
@@ -288,6 +283,28 @@ module.exports = {
           .setDescription(`Choose one of these jobs, all of them have their pros and cons. \n\n${alljobs.join('\n')}`)
           .setColor("ORANGE")
           await message.reply({ embeds: [embed] })
+          break;
+        case 'switch':
+          let isVip = db.get(`${user.id}.vip`)
+          let switchCooldown = 3600000;
+          if(isVip === true) {
+            switchCooldown = 3200000
+          }
+          let lastswitch = db.get(`${user.id}.cooldowns.switchjobs`)
+          if (lastswitch !== null && switchCooldown - (Date.now() - lastswitch) > 0) {
+            let timeleft = ms(switchCooldown - (Date.now() - lastswitch));
+            let embed = new Discord.MessageEmbed()
+            .setTitle(`No...`)
+            .setDescription(`You've already switched jobs recently! Please wait more **${timeleft}**`)
+            .setColor("RED")
+            await interaction.reply({ embeds: [embed] })
+          } else {
+            if(!db.get(`${user.id}.work`)) {
+              await message.reply('You do not have a job yet! please check \`oki work list\` and do \`oki work new <work>\`')
+            } else {
+              await switchjob(user, db, Discord, s, commafy, message, job)
+            }
+          }
           break;
       }
     }
