@@ -1,5 +1,6 @@
 {
   "name": "cookie",
+  "showname": "Cookie",
   "description": "Simple but kind of a rare item. You can't buy or sell this item, however you can trade it! To get cookies you can either follow achievements or by luck in minigames / commands randomly. Prices for cookies on trades usually depend on the trader's offer, but there is a range you can follow!",
   "rarity": "Rare",
   "type": "Tradable",

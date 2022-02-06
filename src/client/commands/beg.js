@@ -12,9 +12,12 @@ module.exports = {
     if(isVip === true) {
       begCooldown = 5000
     }
-    let lastbeg = db.get(`${user.id}.cooldowns.beg`)
-    if (lastbeg !== null && begCooldown - (Date.now() - lastbeg) > 0) {
-      let timeleft = ms(begCooldown - (Date.now() - lastbeg));
+    let lastbeg = db.get(`${user.id}.cooldowns`)
+    if(!lastbeg) {
+      lastbeg = { beg: null }
+    }
+    if (lastbeg.beg !== null && begCooldown - (Date.now() - lastbeg.beg) > 0) {
+      let timeleft = ms(begCooldown - (Date.now() - lastbeg.beg));
       let embed = new Discord.MessageEmbed()
       .setTitle(`No...`)
       .setDescription(`Money is great, but spam is not. You have to wait more **${timeleft}** to use this command again!\nThe default cooldown is set to \`10s\`, but VIPs get to wait only \`5s\`.`)
@@ -54,9 +57,12 @@ module.exports = {
     if(isVip === true) {
       begCooldown = 5000
     }
-    let lastbeg = db.get(`${user.id}.cooldowns.beg`)
-    if (lastbeg !== null && begCooldown - (Date.now() - lastbeg) > 0) {
-      let timeleft = ms(begCooldown - (Date.now() - lastbeg));
+    let lastbeg = db.get(`${user.id}.cooldowns`)
+    if(!lastbeg) {
+      lastbeg = { beg: null }
+    }
+    if (lastbeg.beg !== null && begCooldown - (Date.now() - lastbeg.beg) > 0) {
+      let timeleft = ms(begCooldown - (Date.now() - lastbeg.beg));
       let embed = new Discord.MessageEmbed()
       .setTitle(`No...`)
       .setDescription(`Money is great, but spam is not. You have to wait more **${timeleft}** to use this command again!\nThe default cooldown is set to \`10s\`, but VIPs get to wait only \`5s\`.`)

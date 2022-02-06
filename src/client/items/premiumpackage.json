@@ -1,0 +1,14 @@
+{
+  "name": "premiumpackage",
+  "showname": "Premium Package",
+  "description": "Given to those chads who support us via boosting our community server! When used, it can give you random items (fixed value but completely random items).",
+  "rarity": "Legendary",
+  "type": "Usable",
+  "sell": 0,
+  "trade": [4500000, 10000000],
+  "buy": 0,
+  "emoji": "<:PremiumPackage:938570888780058644>",
+  "color": "ORANGE",
+  "value": 6500000,
+  "thumb": "https://cdn.discordapp.com/emojis/938570888780058644.webp?size=96&quality=lossless"
+}

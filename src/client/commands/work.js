@@ -39,26 +39,26 @@ function minigame(user, message, db, Discord, s, commafy) {
             if(i.user.id === user.id) {
               if(i.customId === 'higher') {
                 if(correct > number) {
-                  i.update({ content: `You guessed it! The correct number (\`${correct}\`), is higher than your guess (\`${number}\`), so you got your salary of \`\`${commafy(salary)}\`\` ${s}`, components: [], ephemeral: true})
+                  i.update({ content: `You guessed it! The correct number (\`${correct}\`), is higher than your number (\`${number}\`), so you got your salary of \`\`${commafy(salary)}\`\` ${s}`, components: [], ephemeral: true})
                   db.add(`${user.id}.money`, salary)
                 } else {
-                  i.update({ content: `Wrong guess! The correct one was \`${correct}\` while yours was \`${number}\`. Better luck next time!`, components: [], ephemeral: true})
+                  i.update({ content: `Wrong guess! The correct number was \`${correct}\` while yours was \`${number}\`. Better luck next time!`, components: [], ephemeral: true})
                 }
               }
               if(i.customId === 'same') {
                 if(correct === number) {
-                  i.update({ content: `You guessed it! The correct number was \`${correct}\` and your guess was exactly the same. So you got your salary of \`\`${commafy(salary)}\`\` ${s}`, components: [], ephemeral: true})
+                  i.update({ content: `You guessed it! The correct number was \`${correct}\` and your number was exactly the same. So you got your salary of \`\`${commafy(salary)}\`\` ${s}`, components: [], ephemeral: true})
                   db.add(`${user.id}.money`, salary)
                 } else {
-                  i.update({ content: `Wrong guess! The correct one was \`${correct}\` while yours was \`${number}\`. Better luck next time!`, components: [], ephemeral: true})
+                  i.update({ content: `Wrong guess! The correct number was \`${correct}\` while yours was \`${number}\`. Better luck next time!`, components: [], ephemeral: true})
                 }
               }
               if(i.customId === 'lower') {
                 if(correct < number) {
-                  i.update({ content: `You guessed it! The correct number (\`${correct}\`), is lower than your guess (\`${number}\`), so you got your salary of \`\`${commafy(salary)}\`\` ${s}`, components: [], ephemeral: true})
+                  i.update({ content: `You guessed it! The correct number (\`${correct}\`), is lower than your number (\`${number}\`), so you got your salary of \`\`${commafy(salary)}\`\` ${s}`, components: [], ephemeral: true})
                   db.add(`${user.id}.money`, salary)
                 } else {
-                  i.update({ content: `Wrong guess! The correct one was \`${correct}\` while yours was \`${number}\`. Better luck next time!`, components: [], ephemeral: true})
+                  i.update({ content: `Wrong guess! The correct number was \`${correct}\` while yours was \`${number}\`. Better luck next time!`, components: [], ephemeral: true})
                 }
               }
             } else {
@@ -88,9 +88,18 @@ function minigame(user, message, db, Discord, s, commafy) {
           thewordid -= 1;
         }
         let word = words[r];
-        if(r === 0 && word === randomword) word = words[r + 1];
-        if(word === randomword && r !== 0) word = words[r - 1];
-        array.push({ word: word, id: thewordid })
+        if(array.includes(word) || word === randomword) {
+          for(let i = 0; i < words.length; i++) {
+            if(!array.includes(words[i]) && words !== randomword) {
+              word = words[i]
+              array.push({ word: word, id: thewordid })
+            } else {
+              continue;
+            }
+          }
+        } else {
+          array.push({ word: word, id: thewordid })
+        }
       }
       let button1 = new Discord.MessageButton()
         .setCustomId('1')
@@ -162,11 +171,13 @@ function minigame(user, message, db, Discord, s, commafy) {
           const collector = message.createMessageComponentCollector({ componentType: 'BUTTON', time: 7000 });
 
           collector.on('collect', i => {
-            let a = new Function(`if(${i.customId} === ${randombuttonid}) return true;`)()
-            if(a === true) {
-              i.update({ content: `Good work! You guessed the word (\`${randomword}\`) right! Here is your salary of \`\`${commafy(salary)}\`\` ${s}`, components: [], ephemeral: true })
-            } else {
-              i.update({ content: `Terrible work, you didn't even guess the word (\`${randomword}\`) right. For that you don't get your salary!`, components: [], ephemeral: true })
+            if(i.user.id === user.id) {
+              let a = new Function(`if(${i.customId} === ${randombuttonid}) return true;`)()
+              if(a === true) {
+                i.update({ content: `Good work! You guessed the word (\`${randomword}\`) right! Here is your salary of \`\`${commafy(salary)}\`\` ${s}`, components: [], ephemeral: true })
+              } else {
+                i.update({ content: `Terrible work, you didn't even guess the word (\`${randomword}\`) right. For that you don't get your salary!`, components: [], ephemeral: true })
+              }
             }
           })
         }, 5000)
@@ -182,7 +193,7 @@ async function newjob(user, db, Discord, s, commafy, message, job) {
       let embed = new Discord.MessageEmbed()
       .setTitle("New job!")
       .setColor("GREEN")
-      .setDescription(`You just got your first job ever! Wow... here is \`1,500\` ${s} to get you started. \n\n**__Work Info__** \n\nWork Name - **${work.name}** \n\nWork Salary - **${work.salary}** \n_Everytime you work, you have a 3% chance of getting a promotion, which raises your salary by a random amount of money_ \nYou were hired for the first time on <t:${Date.now()}:D>`)
+      .setDescription(`You just got your first job ever! Wow... here is \`1,500\` ${s} to get you started. \n\n**__Work Info__** \n\nWork Name - **${work.name}** \n\nWork Salary - **${work.salary}** \n_Everytime you work, you have a 3% chance of getting a promotion, which raises your salary by a random amount of money_ \nYou started working on <t:${Math.round(+new Date()/1000)}:D>`)
       await message.reply({ embeds: [embed] })
       db.set(`${user.id}.work`, {
         name: work.name,
@@ -206,7 +217,7 @@ async function switchjob(user, db, Discord, s, commafy, message, job) {
       let embed = new Discord.MessageEmbed()
       .setTitle("Switched jobs!")
       .setColor("GREEN")
-      .setDescription(`You switched from your last job (worked as \`${lastjob}\`) to work as a \`${job}\` with a salary of \`${work.salary}\``)
+      .setDescription(`You switched from your last job (worked as \`${lastjob}\`) to work as a \`${job}\` with a salary of \`${work.salary}\` ${s} \nYou started working your new job on <t:${Math.round(+new Date()/1000)}:D>`)
       await message.reply({ embeds: [embed] })
       db.set(`${user.id}.work`, {
         name: work.name,
@@ -215,7 +226,7 @@ async function switchjob(user, db, Discord, s, commafy, message, job) {
         firstjob: false,
         hasswitched: true
       })
-      db.set(`${user.id}.cooldowns.switchjob`, Date.now())
+      db.set(`${user.id}.cooldowns.switchjobs`, Date.now())
     } else {
       continue;
     }
@@ -237,9 +248,12 @@ module.exports = {
         if(isVip === true) {
           workCooldown = 3200000;
         }
-        let lastwork = db.get(`${user.id}.cooldowns.work`)
-        if (lastwork !== null && workCooldown - (Date.now() - lastwork) > 0) {
-          let timeleft = ms(workCooldown - (Date.now() - lastwork));
+        let lastwork = db.get(`${user.id}.cooldowns`)
+        if(!lastwork) {
+          lastwork = { work: null }
+        }
+        if (lastwork.work !== null && workCooldown - (Date.now() - lastwork.work) > 0) {
+          let timeleft = ms(workCooldown - (Date.now() - lastwork.work));
           let embed = new Discord.MessageEmbed()
           .setTitle(`No...`)
           .setDescription(`Money is great, but spam is not. You have to wait more **${timeleft}** to use this command again!\nThe default cooldown is set to \`1h\`, but VIPs get to wait only \`53m\`.`)
@@ -249,9 +263,9 @@ module.exports = {
           let salary = work.salary
           let random = Math.floor(Math.random() * 100);
           if(random > 97) {
-            let randomM = Math.floor(Math.random() * (salary / 10))
+            let randomM = Math.floor(Math.random() * (salary / 10)) + Math.floor(salary / 20);
             db.add(`${user.id}.work.salary`, randomM)
-            await message.reply(`I haven't seen someone like you in years, I think you deserver a good old promotion, don't you? Your new salary is \`${commafy(salary + randomM)} ${s}\``)
+            await message.reply(`I haven't seen someone like you in years, I think you deserve a good old promotion, don't you? Your new salary is \`${commafy(salary + randomM)} ${s}\``)
           } else {
             await minigame(user, message, db, Discord, s, commafy)
           }
@@ -286,23 +300,31 @@ module.exports = {
           break;
         case 'switch':
           let isVip = db.get(`${user.id}.vip`)
+          let job = args.slice(1).join('')
           let switchCooldown = 3600000;
           if(isVip === true) {
             switchCooldown = 3200000
           }
-          let lastswitch = db.get(`${user.id}.cooldowns.switchjobs`)
-          if (lastswitch !== null && switchCooldown - (Date.now() - lastswitch) > 0) {
-            let timeleft = ms(switchCooldown - (Date.now() - lastswitch));
+          let lastswitch = db.get(`${user.id}.cooldowns`)
+          if(!lastswitch) {
+            lastswitch = { switchjobs: null }
+          }
+          if (lastswitch.switchjobs !== null && switchCooldown - (Date.now() - lastswitch.switchjobs) > 0) {
+            let timeleft = ms(switchCooldown - (Date.now() - lastswitch.switchjobs));
             let embed = new Discord.MessageEmbed()
             .setTitle(`No...`)
             .setDescription(`You've already switched jobs recently! Please wait more **${timeleft}**`)
             .setColor("RED")
-            await interaction.reply({ embeds: [embed] })
+            await message.reply({ embeds: [embed] })
           } else {
             if(!db.get(`${user.id}.work`)) {
               await message.reply('You do not have a job yet! please check \`oki work list\` and do \`oki work new <work>\`')
             } else {
-              await switchjob(user, db, Discord, s, commafy, message, job)
+              if(!job) {
+                await message.reply('You have to specify the job you want to work as! please check \`oki work list\` and do \`oki work new <job>\`')
+              } else {
+                await switchjob(user, db, Discord, s, commafy, message, job)
+              }
             }
           }
           break;

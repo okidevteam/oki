@@ -1,5 +1,6 @@
 {
   "name": "cube",
+  "showname": "Rubik's Cube",
   "description": "When this cube is used, you have a chance to actually solve it. If you solve this cube, you will get a coin boost of `+200%`. You can get this cube by luck or by reaching levels `5`, `10`, `25`, `50` or `75`.",
   "rarity": "Common",
   "type": "Usable",

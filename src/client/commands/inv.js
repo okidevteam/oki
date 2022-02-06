@@ -12,7 +12,11 @@ function checkItemsInv(client, inv, commafy) {
   }
   if(inv.smileyface > 0) {
     let item = client.items.get('smileyface')
-    allInv.push(`${item.emoji} SmileyFaces ─ \`\`${commafy(inv.cube)}\`\`\nType ─ _${item.type}_`)
+    allInv.push(`${item.emoji} Smiley Faces ─ \`\`${commafy(inv.smileyface)}\`\`\nType ─ _${item.type}_`)
+  }
+  if(inv.premiumpackage > 0) {
+    let item = client.items.get('premiumpackage')
+    allInv.push(`${item.emoji} Premium Packages ─ \`\`${commafy(inv.premiumpackage)}\`\`\nType ─ _${item.type}_`)
   }
   if(allInv.length === 0) {
     allInv = ["This user has no items, LMAO!"]

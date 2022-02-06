@@ -14,13 +14,20 @@ module.exports = {
     if(!itema) {
       let embed = new Discord.MessageEmbed()
       .setTitle(`Shop!`)
+      .setDescription(`
+      <:cube:936621155282997328> Rubik's Cube ─ \`20,000\` ${s}
+      <:smiley:936982261297987645> Smiley Face ─ \`120,000\` ${s}
+      `)
+      .setColor("ORANGE")
       await interaction.reply({ embeds: [embed] })
     } else {
       itema = `${itema.value}`.split(' ').join('').toLowerCase()
       let item = null
+      let itemcl = null;
       switch(itema) {
         case 'cookie':
           item = client.items.get("cookie")
+          itemcl = 'cookie'
           break;
         case 'cube':
         case "rubik'scube":
@@ -30,11 +37,19 @@ module.exports = {
         case "rubiks":
         case "rubik's":
           item = client.items.get("cube")
+          itemcl = 'cube'
           break;
         case "smiley":
         case "face":
         case "smileyface":
           item = client.items.get("smileyface")
+          itemcl = 'smileyface'
+          break;
+        case 'premium':
+        case 'package':
+        case 'premiumpackage':
+          item = client.items.get('premiumpackage')
+          itemcl = 'premiumpackage'
           break;
         default:
           await interaction.reply("This item does not exist!");
@@ -55,15 +70,15 @@ module.exports = {
         if(!inv) {
           owned = 0
         } else {
-          owned = inv[itema.toLowerCase()] || 0;
+          owned = inv[itemcl] || 0;
         }
         let tradevalue = [];
         item.trade.forEach(value => {
           tradevalue.push(commafy(value))
         })
         let itemembed = new Discord.MessageEmbed()
-        .setTitle(`${item.name} (${owned} owned) ${item.emoji}`)
-        .setDescription(`${item.description}`)
+        .setTitle(`${item.showname} (${owned} owned) ${item.emoji}`)
+        .setDescription(`> ${item.description}`)
         .addFields(
           { name: 'Purchase Price', value: `\`${commafy(item.buy)}\``, inline: true },
           { name: 'Sell Price', value: `\`${commafy(item.sell)}\``, inline: true },
@@ -81,15 +96,22 @@ module.exports = {
   },
   async exe(message, args, Discord, db, s, client, commafy) {
     let itema = args.slice(0).join('').toLowerCase()
-    let embed = new Discord.MessageEmbed()
-    .setTitle(`Shop!`)
     if(!itema) {
+      let embed = new Discord.MessageEmbed()
+      .setTitle(`Shop!`)
+      .setDescription(`
+      <:cube:936621155282997328> Rubik's Cube ─ \`20,000\` ${s}
+      <:smiley:936982261297987645> Smiley Face ─ \`120,000\` ${s}
+      `)
+      .setColor("ORANGE")
       await message.channel.send({ embeds: [embed] })
     } else {
       let item = null
+      let itemcl = null;
       switch(itema) {
         case 'cookie':
           item = client.items.get("cookie")
+          itemcl = 'cookie'
           break;
         case 'cube':
         case "rubik'scube":
@@ -99,11 +121,19 @@ module.exports = {
         case "rubiks":
         case "rubik's":
           item = client.items.get("cube")
+          itemcl = 'cube'
           break;
         case "smiley":
         case "face":
         case "smileyface":
           item = client.items.get("smileyface")
+          itemcl = 'smileyface'
+          break;
+        case 'premium':
+        case 'package':
+        case 'premiumpackage':
+          item = client.items.get('premiumpackage')
+          itemcl = 'premiumpackage'
           break;
         default:
           await message.reply("This item does not exist!");
@@ -124,15 +154,15 @@ module.exports = {
         if(!inv) {
           owned = 0
         } else {
-          owned = inv[itema.toLowerCase()] || 0;
+          owned = inv[itemcl] || 0;
         }
         let tradevalue = [];
         item.trade.forEach(value => {
           tradevalue.push(commafy(value))
         })
         let itemembed = new Discord.MessageEmbed()
-        .setTitle(`${item.name} (${owned} owned) ${item.emoji}`)
-        .setDescription(`${item.description}`)
+        .setTitle(`${item.showname} (${owned} owned) ${item.emoji}`)
+        .setDescription(`> ${item.description}`)
         .addFields(
           { name: 'Purchase Price', value: `\`${commafy(item.buy)}\``, inline: true },
           { name: 'Sell Price', value: `\`${commafy(item.sell)}\``, inline: true },

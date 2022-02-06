@@ -12,7 +12,7 @@
     "gto": ["Upvote", "Downvote", "Comment", "Meme", "r/im14andthisisdeep", "r/memes", "r/cursedcomments", "Emojis", "Gold", "Karma", "Awards", "r/askreddit"]
   },
   "investor": {
-    "gtw": ["Bitcoin", "Dogecoin", "Actions", "Ethereum", "Litecoin", "Miner", "Trades", "business"],
-    "gto": ["Bitcoin", "Dogecoin", "Actions", "Ethereum", "Litecoin", "Miner", "Scam"]
+    "gtw": ["Bitcoin", "Dogecoin", "Actions", "Ethereum", "Litecoin", "Miner", "Trades", "Business", "Scam"],
+    "gto": ["Bitcoin", "Dogecoin", "Actions", "Ethereum", "Litecoin", "Miner", "Trades", "Business", "Scam"]
   }
 }
